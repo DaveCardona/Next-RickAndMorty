@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next-RickAndMorty
 
-## Getting Started
+Taller de Desarrollo Híbrido. Es una aplicación hecha con Next.js que usa la
+API de Rick and Morty (https://rickandmortyapi.com) para ver personajes,
+episodios y locaciones.
 
-First, run the development server:
+## Tecnologías
+
+Next.js 16 (App Router), React, TypeScript y Tailwind CSS.
+
+## Cómo correrlo
+
+Necesita Node.js 20 o superior.
 
 ```bash
+git clone https://github.com/DaveCardona/Next-RickAndMorty.git
+cd Next-RickAndMorty
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Luego abrir http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Qué tiene
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Navbar con menú, buscador y footer.
+- Listados de personajes, episodios y locaciones con paginación.
+- Filtros (estado, género, especie, temporada, tipo, dimensión). Los filtros
+  quedan en la URL, por ejemplo `/characters?status=Alive&page=2`.
+- Página de detalle de cada elemento (`/characters/[id]`, `/episodes/[id]`,
+  `/locations/[id]`).
+- Favoritos de personajes guardados en localStorage.
+- Diseño responsive con Tailwind.
 
-## Learn More
+## Carpetas
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app`: las páginas y rutas.
+- `src/components`: componentes (layout, ui, y uno por sección).
+- `src/services`: funciones que consultan la API.
+- `src/types`: interfaces de TypeScript.
+- `src/hooks`: el hook `useFavorites`.
+- `src/lib`: constantes, utilidades y el manejo de localStorage.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Server y Client Components
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Las páginas y las tarjetas son Server Components porque solo muestran datos.
+Son Client Components los que necesitan interactividad: Navbar (menú móvil),
+NavLinks, SearchBox, los filtros, FavoriteButton y FavoritesList (usan
+localStorage).
 
-## Deploy on Vercel
+## Resultado del build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Ruta | Tipo |
+|---|---|
+| `/`, `/favorites` | Estática (○) |
+| `/characters/[id]`, `/episodes/[id]`, `/locations/[id]` | SSG (●) |
+| `/characters`, `/episodes`, `/locations` | Dinámica (ƒ) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Los listados son dinámicos porque leen los filtros de la URL. En las páginas de
+detalle solo se pre-renderizan unas pocas con `generateStaticParams`, porque con
+más la API respondía error 429 (demasiadas peticiones) durante el build.
+
+## Notas
+
+- El buscador del Navbar solo busca personajes.
+- Solo los personajes se pueden guardar como favoritos.
