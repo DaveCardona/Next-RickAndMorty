@@ -13,7 +13,7 @@ export default function CharacterCard({ character }: { character: FavoriteCharac
   const { id, name, image, status, species } = character;
 
   return (
-    <article className="relative overflow-hidden rounded-lg border border-slate-800 bg-slate-900 transition hover:border-lime-400">
+    <article className="card relative overflow-hidden">
       <Link href={`/characters/${id}`}>
         <Image
           src={image}
