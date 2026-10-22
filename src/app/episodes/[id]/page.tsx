@@ -10,6 +10,10 @@ interface EpisodePageProps {
   params: Promise<{ id: string }>;
 }
 
+export function generateStaticParams() {
+  return Array.from({ length: 5 }, (_, i) => ({ id: String(i + 1) }));
+}
+
 export async function generateMetadata({ params }: EpisodePageProps): Promise<Metadata> {
   const { id } = await params;
   const episode = await getEpisodeById(Number(id));

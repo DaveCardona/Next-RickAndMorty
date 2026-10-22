@@ -9,10 +9,12 @@ import {
   subscribe,
 } from "@/lib/favorites-store";
 
+const NO_FAVORITES: FavoriteCharacter[] = [];
+
 export function useFavorites() {
   const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const favorites = snapshot ?? [];
+  const favorites = snapshot ?? NO_FAVORITES;
   const isReady = snapshot !== null;
 
   const isFavorite = useCallback(

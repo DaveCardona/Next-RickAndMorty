@@ -11,6 +11,10 @@ interface CharacterPageProps {
     params: Promise<{ id: string }>;
 }
 
+export function generateStaticParams() {
+  return Array.from({ length: 5 }, (_, i) => ({ id: String(i + 1) }));
+}
+
 export async function generateMetadata({ params }: CharacterPageProps): Promise<Metadata> {
     const { id } = await params;
     const character = await getCharacterById(Number(id));
